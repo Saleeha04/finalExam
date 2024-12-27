@@ -30,6 +30,16 @@ router.get('/attractions', async (req, res) => {
     }
 });
 
+// Route to get top 5 attractions based on rating
+router.get('/attractions/top-rated', async (req, res) => {
+    try {
+        const topAttractions = await Attraction.find().sort({ rating: -1 }).limit(5);
+        res.status(200).send(topAttractions);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 router.get('/attractions/:id', async (req, res) => {
     try {
         const attraction = await Attraction.findById(req.params.id);
@@ -76,13 +86,14 @@ router.post('/visitors', async (req, res) => {
     }
 });
 
-// CRUD Routes for Visitors
-router.get('/visitors', async (req, res) => {
+// Route to get all visitors
+router.get('/api/visitors', async (req, res) => {
     try {
-        const visitors = await Visitor.find().populate('visitedAttractions');
-        res.status(200).send(visitors);
+        const visitors = await Visitor.find().populate('visitedAttractions'); // Ensure 'visitedAttractions' is a valid reference in the Visitor schema.
+        res.status(200).json(visitors);
     } catch (err) {
-        res.status(500).send(err);
+        console.error('Error fetching visitors:', err.message); // Log the detailed error for debugging.
+        res.status(500).json({ error: 'An error occurred while retrieving visitors.' });
     }
 });
 
@@ -185,16 +196,6 @@ router.delete('/reviews/:id', async (req, res) => {
         const review = await Review.findByIdAndDelete(req.params.id);
         if (!review) return res.status(404).send({ error: 'Review not found.' });
         res.status(200).send({ message: 'Review deleted successfully.' });
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
-
-// Route to get top 5 attractions based on rating
-router.get('/attractions/top-rated', async (req, res) => {
-    try {
-        const topAttractions = await Attraction.find().sort({ rating: -1 }).limit(5);
-        res.status(200).send(topAttractions);
     } catch (err) {
         res.status(500).send(err);
     }

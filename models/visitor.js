@@ -24,4 +24,4 @@ const visitorSchema = new mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model('Visitor', visitorSchema);
+module.exports = mongoose.model('visitor', visitorSchema);

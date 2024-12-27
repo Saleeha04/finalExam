@@ -6,7 +6,7 @@ const apiRoutes = require('./routes'); // Import your routes
 const app = express();
 
 // Configuration (hardcoded values)
-const MONGO_URI = 'mongodb://localhost:27017/'; // Replace with your MongoDB URI if needed
+const MONGO_URI = 'mongodb://localhost:27017/';
 const PORT = 3000;
 
 // Middleware for parsing JSON
